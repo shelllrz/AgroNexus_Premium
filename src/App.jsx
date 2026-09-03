@@ -9,6 +9,7 @@ import Dashboard from "./pages/Dashboard";
 import Product from "./pages/Product";
 import Contact from "./pages/Contact";
 import { demoLots } from "./services/mockData";
+import Solicitacoes from "./pages/solicitacoes";
 
 export default function App() {
   const [page, setPage] = useState("inicio");
@@ -28,6 +29,7 @@ export default function App() {
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
+  
   const goBack = () => {
     if (!history.length) return;
     setPage(history[history.length - 1]);
@@ -132,6 +134,14 @@ export default function App() {
         {page === "contato" && <Contact done={receiveContact} />}
         {page === "acesso" && (
           <Access startCreating={createAccount} done={authenticate} />
+        )}
+        {page === "solicitacoes" &&
+          account?.role === "entrepreneur" && (
+            <solicitacoes
+              account={account}
+              negotiations={negotiations}
+              onUpdateNegotiation={updateNegotiation}
+              go={go}/>
         )}
         {page === "painel" && account && (
           <Dashboard

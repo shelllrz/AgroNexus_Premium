@@ -62,7 +62,7 @@ export default function Dashboard({ account, lots, marketplaceLots, negotiations
         <K>PRÓXIMOS PASSOS</K>
         <div>
           <button onClick={() => go("produto")}>01 <span>Cadastrar produto<small>Informe sua colheita</small></span>→</button>
-          <button onClick={() => go("lotes")}>02 <span>Conhecer compradores<small>Veja a rede</small></span>→</button>
+          <button onClick={() => go("solicitacoes")}>02 <span>Ver solicitações<small>Analise as propostas recebidas</small></span>→</button>
           <button onClick={() => go("logistica")}>03 <span>Encontrar rota<small>Simule o frete</small></span>→</button>
         </div>
       </div>
