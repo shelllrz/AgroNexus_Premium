@@ -1,7 +1,14 @@
 import { navigationItems } from "../services/mockData";
 import { Logo } from "./Brand";
 export function SiteHeader({ currentPage, isLoggedIn, isProducer, menuOpen, canGoBack, onNavigate, onBack, onLogout, onCreateAccount, onToggleMenu, }) {
-    const visibleItems = navigationItems.filter(([page]) => page !== "lotes" || isLoggedIn);
+    const visibleItems = navigationItems.flatMap(([page, label]) => {
+      if (page !== "lotes") {
+        return [[page, label]];}
+      if (!isLoggedIn) {
+        return [];}
+      if (isProducer) {
+        return [["solicitacoes", "Solicitações"]];}
+      return [["lotes", "Lotes"]];});
     return (<header>
       <div className="nav">
         <button onClick={() => onNavigate("inicio")}>

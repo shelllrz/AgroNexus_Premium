@@ -129,14 +129,13 @@ export default function App() {
       <main>
         {page === "inicio" && <Home go={go} />}
         {page === "proposta" && <About go={go} />}
-        {page === "lotes" && <Lots lots={marketplaceLots} />}
+        {page === "lotes" && account?.role === "buyer" && (<Lots lots={marketplaceLots} />)}
         {page === "logistica" && <Logistics />}
         {page === "contato" && <Contact done={receiveContact} />}
         {page === "acesso" && (
           <Access startCreating={createAccount} done={authenticate} />
         )}
-        {page === "solicitacoes" &&
-          account?.role === "entrepreneur" && (
+        {page === "solicitacoes" && account?.role === "entrepreneur" && (
             <solicitacoes
               account={account}
               negotiations={negotiations}
