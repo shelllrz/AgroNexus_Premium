@@ -9,7 +9,7 @@ import Dashboard from "./pages/Dashboard";
 import Product from "./pages/Product";
 import Contact from "./pages/Contact";
 import { demoLots } from "./services/mockData";
-import solicitacoes from "./pages/solicitacoes";
+import Solicitacoes from "./pages/solicitacoes";
 
 export default function App() {
   const [page, setPage] = useState("inicio");
@@ -129,21 +129,14 @@ export default function App() {
       <main>
         {page === "inicio" && <Home go={go} />}
         {page === "proposta" && <About go={go} />}
-        {page === "lotes" && account?.role === "buyer" && (<Lots lots={marketplaceLots} />)}
+        {page === "lotes" && account?.role === "buyer" && (
+          <Lots lots={marketplaceLots} />)}
         {page === "logistica" && <Logistics />}
         {page === "contato" && <Contact done={receiveContact} />}
         {page === "acesso" && (
           <Access startCreating={createAccount} done={authenticate} />
         )}
 
-        {page === "solicitacoes" && account && (
-          <solicitacoes
-            account={account}
-            negotiations={negotiations}
-            onUpdateNegotiation={updateNegotiation}
-            go={go}
-          />
-        )}
         {page === "painel" && account && (
           <Dashboard
             account={account}
@@ -151,6 +144,15 @@ export default function App() {
             marketplaceLots={marketplaceLots}
             negotiations={negotiations}
             onSendProposal={sendProposal}
+            onUpdateNegotiation={updateNegotiation}
+            go={go}
+          />
+        )}
+
+        {page === "solicitacoes" && (
+          <Solicitacoes
+            account={account}
+            negotiations={negotiations}
             onUpdateNegotiation={updateNegotiation}
             go={go}
           />

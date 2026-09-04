@@ -1,14 +1,14 @@
 import { Eyebrow as K, StatCard as Stat } from "../components/Brand";
 import NegotiationList from "../components/NegotiationList";
 
-export default function solicitacoes({
+export default function Solicitacoes({
   account,
   negotiations = [],
   onUpdateNegotiation,
   go,
 }) {
   const solicitacoesRecebidas = negotiations.filter(
-    (item) => item.producerEmail === account.email
+    (item) => item.producerEmail === account?.email
   );
 
   const aguardandoResposta = solicitacoesRecebidas.filter(
@@ -56,8 +56,9 @@ export default function solicitacoes({
 
       <div className="profile-check">
         <b>✓ CONTATO COMERCIAL PROTEGIDO</b>
+
         <span>
-          Os dados comerciais só são liberados depois que a proposta é aceita.
+          Os contatos só serão liberados depois que a proposta for aceita.
         </span>
       </div>
 
@@ -70,8 +71,8 @@ export default function solicitacoes({
       />
 
       <p className="notice">
-        Confira quantidade, preço, pagamento, entrega e mensagem antes de
-        responder.
+        Confira a quantidade, o valor, o pagamento, a entrega e a mensagem do
+        comprador antes de responder.
       </p>
     </main>
   );
