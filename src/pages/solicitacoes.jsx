@@ -1,4 +1,8 @@
-import { Eyebrow as K, StatCard as Stat } from "../components/Brand";
+import {
+  Eyebrow as K,
+  StatCard as Stat,
+} from "../components/Brand";
+
 import NegotiationList from "../components/NegotiationList";
 
 export default function Solicitacoes({
@@ -8,7 +12,7 @@ export default function Solicitacoes({
   go,
 }) {
   const solicitacoesRecebidas = negotiations.filter(
-    (item) => item.producerEmail === account?.email
+    (item) => item.producerEmail === account.email
   );
 
   const aguardandoResposta = solicitacoesRecebidas.filter(
@@ -19,9 +23,15 @@ export default function Solicitacoes({
     (item) => item.status === "Aceita"
   );
 
+  const solicitacoesRecusadas = solicitacoesRecebidas.filter(
+    (item) => item.status === "Recusada"
+  );
+
   return (
-    <main className="inner frame">
-      <K>CONEXÃO COM COMPRADORES · SOLICITAÇÕES RECEBIDAS</K>
+    <section className="inner frame">
+      <K>
+        CONEXÃO COM COMPRADORES · SOLICITAÇÕES RECEBIDAS
+      </K>
 
       <div className="title-row">
         <h1>
@@ -30,10 +40,18 @@ export default function Solicitacoes({
           <em>SUA PRODUÇÃO.</em>
         </h1>
 
-        <button className="outline" onClick={() => go("painel")}>
-          ← VOLTAR AO PAINEL
+        <button
+          className="outline"
+          onClick={() => go("painel")}
+        >
+          ← Voltar ao painel
         </button>
       </div>
+
+      <p className="lead">
+        Analise as solicitações enviadas pelos compradores e
+        decida quando uma conexão comercial deve continuar.
+      </p>
 
       <section className="stats">
         <Stat
@@ -58,11 +76,20 @@ export default function Solicitacoes({
         <b>✓ CONTATO COMERCIAL PROTEGIDO</b>
 
         <span>
-          Os contatos só serão liberados depois que a proposta for aceita.
+          O contato do comprador só será liberado depois que a
+          proposta for aceita pelo empreendedor.
         </span>
       </div>
 
-      <h2 className="sub">SOLICITAÇÕES DOS COMPRADORES</h2>
+      <div className="title-row">
+        <h2 className="sub">
+          Solicitações dos compradores
+        </h2>
+
+        <span>
+          {solicitacoesRecusadas.length} recusada(s)
+        </span>
+      </div>
 
       <NegotiationList
         items={solicitacoesRecebidas}
@@ -71,9 +98,10 @@ export default function Solicitacoes({
       />
 
       <p className="notice">
-        Confira a quantidade, o valor, o pagamento, a entrega e a mensagem do
-        comprador antes de responder.
+        Antes de responder, confira o produto, a quantidade
+        solicitada, o valor oferecido, o pagamento, a modalidade
+        de entrega e a mensagem do comprador.
       </p>
-    </main>
+    </section>
   );
 }
