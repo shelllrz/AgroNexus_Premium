@@ -137,7 +137,7 @@ export default function App() {
         )}
 
         {page === "solicitacoes" && account && (
-          <Solicitacoes
+          <solicitacoes
             account={account}
             negotiations={negotiations}
             onUpdateNegotiation={updateNegotiation}
