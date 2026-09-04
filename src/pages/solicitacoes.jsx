@@ -1,7 +1,7 @@
 import { Eyebrow as K, StatCard as Stat } from "../components/Brand";
 import NegotiationList from "../components/NegotiationList";
 
-export default function Solicitacoes({
+export default function solicitacoes({
   account,
   negotiations,
   onUpdateNegotiation,

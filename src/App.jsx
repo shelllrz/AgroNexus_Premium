@@ -9,7 +9,7 @@ import Dashboard from "./pages/Dashboard";
 import Product from "./pages/Product";
 import Contact from "./pages/Contact";
 import { demoLots } from "./services/mockData";
-import Solicitacoes from "./pages/solicitacoes";
+import solicitacoes from "./pages/solicitacoes";
 
 export default function App() {
   const [page, setPage] = useState("inicio");
@@ -116,7 +116,7 @@ export default function App() {
       <SiteHeader
         currentPage={page}
         isLoggedIn={Boolean(account)}
-        isProducer={account?.role === "entrepreneur"}
+        isProducer={Boolean(account && account.role !== "buyer")}
         menuOpen={menu}
         canGoBack={history.length > 0}
         onNavigate={go}
