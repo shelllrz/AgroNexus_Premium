@@ -3,7 +3,7 @@ import NegotiationList from "../components/NegotiationList";
 
 export default function solicitacoes({
   account,
-  negotiations,
+  negotiations = [],
   onUpdateNegotiation,
   go,
 }) {
@@ -20,7 +20,7 @@ export default function solicitacoes({
   );
 
   return (
-    <section className="inner frame">
+    <main className="inner frame">
       <K>CONEXÃO COM COMPRADORES · SOLICITAÇÕES RECEBIDAS</K>
 
       <div className="title-row">
@@ -56,10 +56,8 @@ export default function solicitacoes({
 
       <div className="profile-check">
         <b>✓ CONTATO COMERCIAL PROTEGIDO</b>
-
         <span>
-          Os dados de contato só são liberados para as duas partes depois que
-          você aceita a proposta.
+          Os dados comerciais só são liberados depois que a proposta é aceita.
         </span>
       </div>
 
@@ -72,10 +70,9 @@ export default function solicitacoes({
       />
 
       <p className="notice">
-        Antes de responder, confira a quantidade solicitada, o valor oferecido,
-        a forma de pagamento, a modalidade de entrega e a mensagem enviada pelo
-        comprador.
+        Confira quantidade, preço, pagamento, entrega e mensagem antes de
+        responder.
       </p>
-    </section>
+    </main>
   );
 }

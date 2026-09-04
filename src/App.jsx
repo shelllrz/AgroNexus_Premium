@@ -135,12 +135,14 @@ export default function App() {
         {page === "acesso" && (
           <Access startCreating={createAccount} done={authenticate} />
         )}
-        {page === "solicitacoes" && account?.role === "entrepreneur" && (
-            <solicitacoes
-              account={account}
-              negotiations={negotiations}
-              onUpdateNegotiation={updateNegotiation}
-              go={go}/>
+
+        {page === "solicitacoes" && account && (
+          <Solicitacoes
+            account={account}
+            negotiations={negotiations}
+            onUpdateNegotiation={updateNegotiation}
+            go={go}
+          />
         )}
         {page === "painel" && account && (
           <Dashboard
