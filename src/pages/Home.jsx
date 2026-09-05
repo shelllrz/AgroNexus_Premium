@@ -273,7 +273,7 @@ export default function Home({ go }) {
 
           <a
             className="lime pitch-link"
-            href="https://youtu.be/6ujw_7uAYkg"
+            href="https://youtu.be/iXwDXU64oTM"
             target="_blank"
             rel="noreferrer"
           >
@@ -283,7 +283,7 @@ export default function Home({ go }) {
 
         <div className="pitch-video">
           <iframe
-            src="https://www.youtube.com/embed/6ujw_7uAYkg"
+            src="https://youtu.be/iXwDXU64oTM"
             title="Pitch oficial do AgroNexus Premium"
             loading="lazy"
             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
@@ -312,4 +312,4 @@ export default function Home({ go }) {
       </section>
     </>
   );
-}
+} 
