@@ -1,7 +1,4 @@
-import {
-  Eyebrow as K,
-  StatCard as Stat,
-} from "../components/Brand";
+import { Eyebrow as K, StatCard as Stat } from "../components/Brand";
 
 export default function Home({ go }) {
   const networkItems = [
@@ -79,10 +76,7 @@ export default function Home({ go }) {
               ENTRAR NA REDE
             </button>
 
-            <button
-              type="button"
-              onClick={() => go("proposta")}
-            >
+            <button type="button" onClick={() => go("proposta")}>
               CONHECER O PROJETO →
             </button>
           </div>
@@ -110,10 +104,7 @@ export default function Home({ go }) {
       </section>
 
       <section className="stats frame">
-        <Stat
-          l="Economia logística"
-          n="−32%"
-        />
+        <Stat l="Economia logística" n="−32%" />
 
         <Stat
           l="Índice de confiança"
@@ -283,7 +274,7 @@ export default function Home({ go }) {
 
         <div className="pitch-video">
           <iframe
-            src="https://youtu.be/iXwDXU64oTM"
+            src="https://www.youtube.com/embed/iXwDXU64oTM"
             title="Pitch oficial do AgroNexus Premium"
             loading="lazy"
             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
@@ -312,4 +303,4 @@ export default function Home({ go }) {
       </section>
     </>
   );
-} 
+}
