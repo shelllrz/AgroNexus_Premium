@@ -155,17 +155,62 @@ export default function Home({ go }) {
               <small>{specialty} · OFERTAS ATIVAS</small>
             </article>))}
         </div>
+            </section>
+
+      <section className="pitch-section frame">
+        <div className="pitch-copy">
+          <K>PITCH OFICIAL · AGRONEXUS PREMIUM</K>
+
+          <h2>
+            CONHEÇA A NOVA
+            <br />
+            <em>EXPERIÊNCIA AGRONEXUS.</em>
+          </h2>
+
+          <p>
+            Veja como o AgroNexus conecta empreendedores rurais e compradores
+            por meio de perfis específicos, lotes organizados, propostas
+            comerciais, indicadores de confiança e proteção dos contatos.
+          </p>
+
+          <a
+            className="lime pitch-link"
+            href="https://youtu.be/6ujw_7uAYkg"
+            target="_blank"
+            rel="noreferrer"
+          >
+            ASSISTIR NO YOUTUBE ↗
+          </a>
+        </div>
+
+        <div className="pitch-video">
+          <iframe
+            src="https://www.youtube.com/embed/6ujw_7uAYkg"
+            title="Pitch oficial do AgroNexus Premium"
+            loading="lazy"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+            referrerPolicy="strict-origin-when-cross-origin"
+            allowFullScreen
+          />
+        </div>
       </section>
+
       <section className="closing frame">
         <K>O PRÓXIMO LOTE COMEÇA AQUI</K>
+
         <h2>
           TRANSFORME PRODUÇÃO
           <br />
           EM <em>CONEXÃO.</em>
         </h2>
-        <button className="lime" onClick={() => go("acesso")}>
+
+        <button
+          className="lime"
+          onClick={() => go("acesso")}
+        >
           CRIAR MINHA ÁREA →
         </button>
       </section>
-    </>);
+    </>
+  );
 }
