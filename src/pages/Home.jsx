@@ -1,37 +1,105 @@
-import { Eyebrow as K, StatCard as Stat } from "../components/Brand";
+import {
+  Eyebrow as K,
+  StatCard as Stat,
+} from "../components/Brand";
 
 export default function Home({ go }) {
-    return (<>
+  const networkItems = [
+    {
+      number: "01",
+      category: "OFERTA",
+      title: "Lotes organizados",
+      description:
+        "Produto, origem aproximada, volume e período de colheita em uma leitura objetiva.",
+      highlight: "24 ofertas",
+      destination: "lotes",
+    },
+    {
+      number: "02",
+      category: "CONFIANÇA",
+      title: "Decisão com contexto",
+      description:
+        "Indicadores demonstrativos e avisos claros, sem apresentar estimativas como garantias.",
+      highlight: "87/100",
+      destination: "lotes",
+    },
+    {
+      number: "03",
+      category: "LOGÍSTICA",
+      title: "Carga compartilhada",
+      description:
+        "Produtores próximos e destinos compatíveis revelam oportunidades de reduzir custos.",
+      highlight: "−32% frete",
+      destination: "logistica",
+    },
+  ];
+
+  const regions = [
+    {
+      city: "MOGI DAS CRUZES",
+      specialty: "CAQUI · HORTICULTURA",
+    },
+    {
+      city: "IBIÚNA",
+      specialty: "FOLHOSAS · CULTIVO PROTEGIDO",
+    },
+    {
+      city: "PIEDADE",
+      specialty: "ALCACHOFRA · HORTIFRÚTI",
+    },
+  ];
+
+  return (
+    <>
       <section className="hero">
         <div className="hero-content frame">
           <K>AGRICULTURA FAMILIAR · REDE INTELIGENTE</K>
+
           <h1>
             AGRO
             <br />
             <span>NEXUS</span>
           </h1>
-          <p className="hero-tag">SUA SAFRA NÃO PRECISA VIAJAR SOZINHA</p>
+
+          <p className="hero-tag">
+            SUA SAFRA NÃO PRECISA VIAJAR SOZINHA
+          </p>
+
           <p>
             Oferta organizada, confiança progressiva e logística compartilhada
             para fortalecer quem produz.
           </p>
+
           <div className="actions">
-            <button className="lime" onClick={() => go("acesso")}>
+            <button
+              type="button"
+              className="lime"
+              onClick={() => go("acesso")}
+            >
               ENTRAR NA REDE
             </button>
-            <button onClick={() => go("proposta")}>CONHECER O PROJETO →</button>
+
+            <button
+              type="button"
+              onClick={() => go("proposta")}
+            >
+              CONHECER O PROJETO →
+            </button>
           </div>
+
           <div className="hero-signals">
             <span>
               <i>●</i>
               <b>24 LOTES</b>
               <small>oferta visível</small>
             </span>
+
             <span>
               <i>↗</i>
               <b>3 ROTAS</b>
               <small>em formação</small>
             </span>
+
             <span>
               <i>✓</i>
               <b>REGIÃO SEGURA</b>
@@ -40,122 +108,152 @@ export default function Home({ go }) {
           </div>
         </div>
       </section>
+
       <section className="stats frame">
-        <Stat l="Economia logística" n="−32%"/>
-        <Stat l="Índice de confiança" n="87/100" t="white"/>
-        <Stat l="Mais renda no campo" n="+18%" t="orange"/>
+        <Stat
+          l="Economia logística"
+          n="−32%"
+        />
+
+        <Stat
+          l="Índice de confiança"
+          n="87/100"
+          t="white"
+        />
+
+        <Stat
+          l="Mais renda no campo"
+          n="+18%"
+          t="orange"
+        />
       </section>
+
       <section className="story frame">
         <div className="story-copy">
           <K>QUEM MOVE ESSA REDE</K>
+
           <h2>
             QUEM PRODUZ
             <br />
             MERECE <em>ALCANCE.</em>
           </h2>
+
           <p>
             O AgroNexus dá contexto à produção familiar. Cada lote carrega
             origem, volume e janela de colheita — informações que aproximam
             compradores e tornam o transporte coletivo uma decisão possível.
           </p>
-          <button className="outline" onClick={() => go("proposta")}>
+
+          <button
+            type="button"
+            className="outline"
+            onClick={() => go("proposta")}
+          >
             NOSSA PROPOSTA →
           </button>
         </div>
-        <div className="farmer-figure" role="img" aria-label="Produtor rural em uma plantação verde">
+
+        <div
+          className="farmer-figure"
+          role="img"
+          aria-label="Produtor rural em uma plantação verde"
+        >
           <span>PRODUTOR EM FOCO</span>
+
           <aside>
             <b>+18%</b>
             <small>potencial de renda</small>
           </aside>
         </div>
+
         <div className="story-note">
           <b>01</b>
+
           <p>
             Uma plataforma séria não promete atalhos: organiza informação,
             explicita estimativas e protege a localização exata do produtor.
           </p>
         </div>
       </section>
+
       <section className="network frame">
         <K>COMO A REDE FUNCIONA</K>
+
         <div className="section-heading">
           <h2>
             TRÊS FRENTES.
             <br />
             UMA <em>CADEIA.</em>
           </h2>
+
           <p>
             Da colheita ao destino, cada etapa existe para reduzir ruído e
-            aumentar capacidade de decisão.
+            aumentar a capacidade de decisão.
           </p>
         </div>
+
         <div className="network-cards">
-          {[
-            [
-                "01",
-                "OFERTA",
-                "Lotes organizados",
-                "Produto, origem aproximada, volume e período de colheita em uma leitura objetiva.",
-                "24 ofertas",
-            ],
-            [
-                "02",
-                "CONFIANÇA",
-                "Decisão com contexto",
-                "Indicadores demonstrativos e avisos claros, sem apresentar estimativas como garantias.",
-                "87/100",
-            ],
-            [
-                "03",
-                "LOGÍSTICA",
-                "Carga compartilhada",
-                "Produtores próximos e destinos compatíveis revelam oportunidades de reduzir custos.",
-                "−32% frete",
-            ],
-        ].map((x, i) => (<article key={x[0]} className={`card-${i + 1}`}>
+          {networkItems.map((item, index) => (
+            <article
+              key={item.number}
+              className={`card-${index + 1}`}
+            >
               <div className="card-image">
-                <span>{x[0]}</span>
-                <aside>{x[4]}</aside>
+                <span>{item.number}</span>
+                <aside>{item.highlight}</aside>
               </div>
-              <K>{x[1]}</K>
-              <h3>{x[2]}</h3>
-              <p>{x[3]}</p>
-              <button onClick={() => go(i === 2 ? "logistica" : "lotes")}>
+
+              <K>{item.category}</K>
+
+              <h3>{item.title}</h3>
+
+              <p>{item.description}</p>
+
+              <button
+                type="button"
+                onClick={() => go(item.destination)}
+              >
                 EXPLORAR →
               </button>
-            </article>))}
+            </article>
+          ))}
         </div>
       </section>
+
       <section className="regions frame">
         <div>
           <K>TERRITÓRIOS CONECTADOS</K>
+
           <h2>
             DA REGIÃO
             <br />
             PARA A <em>REDE.</em>
           </h2>
+
           <p>
             A plataforma trabalha com regiões aproximadas para preservar a
             privacidade e demonstrar agrupamentos logísticos.
           </p>
+
           <div className="territory-bubble">
             <b>18</b>
             <span>regiões com potencial de conexão</span>
           </div>
         </div>
+
         <div className="region-strip">
-          {[
-            ["MOGI DAS CRUZES", "CAQUI · HORTICULTURA"],
-            ["IBIÚNA", "FOLHOSAS · CULTIVO PROTEGIDO"],
-            ["PIEDADE", "ALCACHOFRA · HORTIFRÚTI"],
-        ].map(([city, specialty], i) => (<article key={city} className={`region-card region-${i + 1}`}>
-              <span>0{i + 1}</span>
-              <b>{city}</b>
-              <small>{specialty} · OFERTAS ATIVAS</small>
-            </article>))}
+          {regions.map((region, index) => (
+            <article
+              key={region.city}
+              className={`region-card region-${index + 1}`}
+            >
+              <span>0{index + 1}</span>
+              <b>{region.city}</b>
+              <small>{region.specialty} · OFERTAS ATIVAS</small>
+            </article>
+          ))}
         </div>
-            </section>
+      </section>
 
       <section className="pitch-section frame">
         <div className="pitch-copy">
@@ -205,6 +303,7 @@ export default function Home({ go }) {
         </h2>
 
         <button
+          type="button"
           className="lime"
           onClick={() => go("acesso")}
         >
