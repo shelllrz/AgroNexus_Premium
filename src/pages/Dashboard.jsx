@@ -1,4 +1,5 @@
 import { useState } from "react";
+
 import {
   Eyebrow as K,
   StatCard as Stat,
@@ -20,53 +21,80 @@ export default function Dashboard({
   onUpdateNegotiation,
   go,
 }) {
-  const isBuyer = account.role === "buyer";
+  const isBuyer =
+    account.role === "buyer";
 
-  const [selectedLot, setSelectedLot] = useState(null);
+  const [
+    selectedLot,
+    setSelectedLot,
+  ] = useState(null);
 
-  const buyerNegotiations = negotiations.filter(
-    (item) => item.buyerEmail === account.email
-  );
+  const buyerNegotiations =
+    negotiations.filter(
+      (item) =>
+        item.buyerEmail ===
+        account.email
+    );
 
-  const producerNegotiations = negotiations.filter(
-    (item) => item.producerEmail === account.email
-  );
+  const producerNegotiations =
+    negotiations.filter(
+      (item) =>
+        item.producerEmail ===
+        account.email
+    );
 
-  const acceptedPurchases = buyerNegotiations.filter(
-    (item) => item.status === "Aceita"
-  ).length;
+  const acceptedPurchases =
+    buyerNegotiations.filter(
+      (item) =>
+        item.status === "Aceita"
+    ).length;
 
   const profileScore = isBuyer
     ? Math.min(
         98,
-        account.verificationScore + acceptedPurchases * 2
+        account.verificationScore +
+          acceptedPurchases * 2
       )
     : lots.length
       ? Math.round(
-          calculateProfileScore(lots) * 0.75 +
-            account.verificationScore * 0.25
+          calculateProfileScore(lots) *
+            0.75 +
+            account.verificationScore *
+              0.25
         )
       : 0;
 
   const routes = [
-    ...new Set(lots.map((lot) => lot.route)),
+    ...new Set(
+      lots.map((lot) => lot.route)
+    ),
   ];
 
   if (isBuyer) {
     return (
       <section className="inner frame">
-        <K>PAINEL DO COMPRADOR · OPORTUNIDADES</K>
+        <K>
+          PAINEL DO COMPRADOR · OPORTUNIDADES
+        </K>
 
         <div className="title-row">
           <h1>
             Bom ter você,
             <br />
-            <em>{account.business || account.name}.</em>
+
+            <em>
+              {account.business ||
+                account.name}
+              .
+            </em>
           </h1>
 
           <button
+            type="button"
             className="outline"
-            onClick={() => go("lotes")}
+            onClick={() =>
+              go("lotes")
+            }
           >
             Explorar lotes
           </button>
@@ -75,7 +103,9 @@ export default function Dashboard({
         <section className="stats">
           <Stat
             l="Ofertas disponíveis"
-            n={String(marketplaceLots.length).padStart(2, "0")}
+            n={String(
+              marketplaceLots.length
+            ).padStart(2, "0")}
           />
 
           <Stat
@@ -86,18 +116,51 @@ export default function Dashboard({
 
           <Stat
             l="Negociações iniciadas"
-            n={String(buyerNegotiations.length).padStart(2, "0")}
+            n={String(
+              buyerNegotiations.length
+            ).padStart(2, "0")}
             t="orange"
           />
         </section>
 
         <div className="profile-check">
-          <b>✓ {account.verificationStatus}</b>
+          <b>
+            ✓{" "}
+            {account.verificationStatus}
+          </b>
 
           <span>
-            Identidade, empresa, contato e demanda conferidos no
+            Identidade, empresa, contato
+            e demanda conferidos no
             cadastro demonstrativo.
           </span>
+        </div>
+
+        <div className="innovation-callout">
+          <div>
+            <K>
+              NOVA FUNCIONALIDADE · FASE 6
+            </K>
+
+            <h2>Nexus Radar ESG</h2>
+
+            <p>
+              Publique a demanda da sua
+              empresa e encontre planos de
+              produção compatíveis com
+              volume, região e prazo.
+            </p>
+          </div>
+
+          <button
+            type="button"
+            className="lime"
+            onClick={() =>
+              go("radar")
+            }
+          >
+            Abrir radar de demanda ↗
+          </button>
         </div>
 
         <h2 className="sub">
@@ -105,38 +168,49 @@ export default function Dashboard({
         </h2>
 
         <div className="connection-grid">
-          {marketplaceLots.map((lot, index) => (
-            <article
-              className="connection-card"
-              key={`${lot.name}-${index}`}
-            >
-              <small>{lot.region}</small>
-
-              <h3>{lot.name}</h3>
-
-              <p>
-                {lot.producer} · {lot.volume}
-              </p>
-
-              <strong>
-                Confiança do produtor: {lot.score}/100
-              </strong>
-
-              <button
-                className="lime"
-                onClick={() => setSelectedLot(lot)}
+          {marketplaceLots.map(
+            (lot, index) => (
+              <article
+                className="connection-card"
+                key={`${lot.name}-${index}`}
               >
-                Enviar proposta ↗
-              </button>
-            </article>
-          ))}
+                <small>
+                  {lot.region}
+                </small>
+
+                <h3>{lot.name}</h3>
+
+                <p>
+                  {lot.producer} ·{" "}
+                  {lot.volume}
+                </p>
+
+                <strong>
+                  Confiança do produtor:{" "}
+                  {lot.score}/100
+                </strong>
+
+                <button
+                  type="button"
+                  className="lime"
+                  onClick={() =>
+                    setSelectedLot(lot)
+                  }
+                >
+                  Enviar proposta ↗
+                </button>
+              </article>
+            )
+          )}
         </div>
 
         {selectedLot && (
           <ProposalForm
             lot={selectedLot}
             buyer={account}
-            onCancel={() => setSelectedLot(null)}
+            onCancel={() =>
+              setSelectedLot(null)
+            }
             onSend={(proposal) => {
               onSendProposal(proposal);
               setSelectedLot(null);
@@ -154,7 +228,8 @@ export default function Dashboard({
         />
 
         <p className="notice">
-          Os contatos são protegidos e liberados somente quando o
+          Os contatos são protegidos e
+          liberados somente quando o
           empreendedor aceita a proposta.
         </p>
       </section>
@@ -163,18 +238,29 @@ export default function Dashboard({
 
   return (
     <section className="inner frame">
-      <K>PAINEL DO EMPREENDEDOR RURAL · VISÃO GERAL</K>
+      <K>
+        PAINEL DO EMPREENDEDOR RURAL ·
+        VISÃO GERAL
+      </K>
 
       <div className="title-row">
         <h1>
           Bom ter você,
           <br />
-          <em>{account.business || account.name}.</em>
+
+          <em>
+            {account.business ||
+              account.name}
+            .
+          </em>
         </h1>
 
         <button
+          type="button"
           className="outline"
-          onClick={() => go("produto")}
+          onClick={() =>
+            go("produto")
+          }
         >
           + Cadastrar lote
         </button>
@@ -183,7 +269,9 @@ export default function Dashboard({
       <section className="stats">
         <Stat
           l="Lotes ativos"
-          n={String(lots.length).padStart(2, "0")}
+          n={String(
+            lots.length
+          ).padStart(2, "0")}
         />
 
         <Stat
@@ -194,48 +282,114 @@ export default function Dashboard({
 
         <Stat
           l="Rotas compatíveis"
-          n={String(routes.length).padStart(2, "0")}
+          n={String(
+            routes.length
+          ).padStart(2, "0")}
           t="orange"
         />
       </section>
 
       <div className="profile-check">
-        <b>✓ {account.verificationStatus}</b>
+        <b>
+          ✓{" "}
+          {account.verificationStatus}
+        </b>
 
         <span>
-          Identidade, propriedade, contato e atividade produtiva
-          conferidos no cadastro demonstrativo.
+          Identidade, propriedade,
+          contato e atividade produtiva
+          conferidos no cadastro
+          demonstrativo.
         </span>
+      </div>
+
+      <div className="innovation-callout">
+        <div>
+          <K>
+            NOVA FUNCIONALIDADE · FASE 6
+          </K>
+
+          <h2>Nexus Radar ESG</h2>
+
+          <p>
+            Planeje sua próxima produção
+            com base em demandas
+            corporativas e visualize
+            oportunidades antes da
+            colheita.
+          </p>
+        </div>
+
+        <button
+          type="button"
+          className="lime"
+          onClick={() =>
+            go("radar")
+          }
+        >
+          Analisar próxima produção ↗
+        </button>
       </div>
 
       <div className="steps">
         <K>PRÓXIMOS PASSOS</K>
 
         <div>
-          <button onClick={() => go("produto")}>
+          <button
+            type="button"
+            onClick={() =>
+              go("produto")
+            }
+          >
             01
+
             <span>
               Cadastrar produto
-              <small>Informe sua colheita</small>
+
+              <small>
+                Informe sua colheita
+              </small>
             </span>
+
             →
           </button>
 
-          <button onClick={() => go("solicitacoes")}>
+          <button
+            type="button"
+            onClick={() =>
+              go("solicitacoes")
+            }
+          >
             02
+
             <span>
               Ver solicitações
-              <small>Analise as propostas recebidas</small>
+
+              <small>
+                Analise as propostas
+                recebidas
+              </small>
             </span>
+
             →
           </button>
 
-          <button onClick={() => go("logistica")}>
+          <button
+            type="button"
+            onClick={() =>
+              go("logistica")
+            }
+          >
             03
+
             <span>
               Encontrar rota
-              <small>Simule o frete</small>
+
+              <small>
+                Simule o frete
+              </small>
             </span>
+
             →
           </button>
         </div>
@@ -245,32 +399,47 @@ export default function Dashboard({
         Minha produção e rotas
       </h2>
 
-      {lots.length ? (
+      {lots.length > 0 ? (
         <div className="lot-table compact">
           {lots.map((lot, index) => (
-            <article key={`${lot.name}-${index}`}>
+            <article
+              key={`${lot.name}-${index}`}
+            >
               <div>
                 <b>{lot.name}</b>
-                <small>{lot.region}</small>
+                <small>
+                  {lot.region}
+                </small>
               </div>
 
               <span>{lot.volume}</span>
-              <strong>{lot.score}/100</strong>
+
+              <strong>
+                {lot.score}/100
+              </strong>
+
               <span>{lot.route}</span>
             </article>
           ))}
         </div>
       ) : (
         <div className="empty">
-          <b>Nenhum produto cadastrado ainda.</b>
+          <b>
+            Nenhum produto cadastrado
+            ainda.
+          </b>
 
           <p>
-            Os lotes, o score e as rotas começam em zero.
+            Os lotes, o score e as rotas
+            começam em zero.
           </p>
 
           <button
+            type="button"
             className="lime"
-            onClick={() => go("produto")}
+            onClick={() =>
+              go("produto")
+            }
           >
             Cadastrar primeiro lote ↗
           </button>
@@ -283,8 +452,11 @@ export default function Dashboard({
         </h2>
 
         <button
+          type="button"
           className="outline"
-          onClick={() => go("solicitacoes")}
+          onClick={() =>
+            go("solicitacoes")
+          }
         >
           Ver todas as solicitações →
         </button>
@@ -293,7 +465,9 @@ export default function Dashboard({
       <NegotiationList
         items={producerNegotiations}
         viewer="entrepreneur"
-        onUpdate={onUpdateNegotiation}
+        onUpdate={
+          onUpdateNegotiation
+        }
       />
     </section>
   );

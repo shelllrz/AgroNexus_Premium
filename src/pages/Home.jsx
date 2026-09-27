@@ -1,5 +1,8 @@
 import { Eyebrow as K, StatCard as Stat } from "../components/Brand";
 
+// Troque somente este ID quando o Pitch da Fase 6 estiver publicado.
+const PITCH_VIDEO_ID = "iXwDXU64oTM";
+
 export default function Home({ go }) {
   const networkItems = [
     {
@@ -246,6 +249,61 @@ export default function Home({ go }) {
         </div>
       </section>
 
+      <section className="innovation-home frame">
+        <div className="innovation-home-copy">
+          <K>NOVA FUNCIONALIDADE · FASE 6</K>
+
+          <h2>
+            PRODUZIR COM
+            <br />
+            <em>SINAL DE DEMANDA.</em>
+          </h2>
+
+          <p>
+            O Nexus Radar ESG cruza planos de produção familiar com intenções
+            de compra de empresas. Em uma leitura simples, revela
+            compatibilidade, receita potencial e indicadores demonstrativos de
+            impacto.
+          </p>
+
+          <button
+            type="button"
+            className="lime"
+            onClick={() => go("acesso")}
+          >
+            ENTRAR E CONHECER O RADAR ESG ↗
+          </button>
+        </div>
+
+        <div className="radar-preview" aria-label="Prévia do Nexus Radar ESG">
+          <span>COMPATIBILIDADE CALCULADA</span>
+          <strong>92%</strong>
+          <b>Tomate italiano × Mercado Verde</b>
+
+          <div>
+            <small>PRODUTO</small>
+            <i>45/45</i>
+          </div>
+
+          <div>
+            <small>REGIÃO</small>
+            <i>20/20</i>
+          </div>
+
+          <div>
+            <small>VOLUME</small>
+            <i>14/20</i>
+          </div>
+
+          <div>
+            <small>PRAZO</small>
+            <i>13/15</i>
+          </div>
+
+          <p>Estimativa explicável · dados demonstrativos</p>
+        </div>
+      </section>
+
       <section className="pitch-section frame">
         <div className="pitch-copy">
           <K>PITCH OFICIAL · AGRONEXUS PREMIUM</K>
@@ -264,7 +322,7 @@ export default function Home({ go }) {
 
           <a
             className="lime pitch-link"
-            href="https://youtu.be/iXwDXU64oTM"
+            href={`https://youtu.be/${PITCH_VIDEO_ID}`}
             target="_blank"
             rel="noreferrer"
           >
@@ -274,7 +332,7 @@ export default function Home({ go }) {
 
         <div className="pitch-video">
           <iframe
-            src="https://www.youtube.com/embed/iXwDXU64oTM"
+            src={`https://www.youtube.com/embed/${PITCH_VIDEO_ID}`}
             title="Pitch oficial do AgroNexus Premium"
             loading="lazy"
             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"

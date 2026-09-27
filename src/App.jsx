@@ -1,4 +1,5 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
+
 import { SiteFooter, SiteHeader } from "./components/SiteChrome";
 
 import Home from "./pages/Home";
@@ -10,26 +11,140 @@ import Dashboard from "./pages/Dashboard";
 import Product from "./pages/Product";
 import Contact from "./pages/Contact";
 import Solicitacoes from "./pages/solicitacoes";
+import Intelligence from "./pages/Intelligence";
 
-import { demoLots } from "./services/mockData";
+import {
+  demoDemands,
+  demoLots,
+  demoProductionPlans,
+} from "./services/mockData";
+
+import { buildMatches } from "./services/intelligenceService";
+
+function readStorage(key, fallback) {
+  try {
+    const savedValue = localStorage.getItem(key);
+
+    return savedValue
+      ? JSON.parse(savedValue)
+      : fallback;
+  } catch {
+    return fallback;
+  }
+}
 
 export default function App() {
   const [page, setPage] = useState("inicio");
-  const [account, setAccount] = useState(null);
-  const [lots, setLots] = useState([]);
+
+  const [account, setAccount] = useState(() =>
+    readStorage("agronexus-account", null)
+  );
+
+  const [lots, setLots] = useState(() =>
+    readStorage("agronexus-lots", [])
+  );
+
   const [menu, setMenu] = useState(false);
   const [toast, setToast] = useState("");
   const [history, setHistory] = useState([]);
   const [createAccount, setCreateAccount] = useState(false);
-  const [accounts, setAccounts] = useState([]);
-  const [negotiations, setNegotiations] = useState([]);
+
+  const [accounts, setAccounts] = useState(() =>
+    readStorage("agronexus-accounts", [])
+  );
+
+  const [negotiations, setNegotiations] = useState(() =>
+    readStorage("agronexus-negotiations", [])
+  );
+
+  const [demands, setDemands] = useState(() =>
+    readStorage("agronexus-demands", demoDemands)
+  );
+
+  const [productionPlans, setProductionPlans] = useState(() =>
+    readStorage(
+      "agronexus-production-plans",
+      demoProductionPlans
+    )
+  );
+
+  /*
+   * Mantém a sessão do usuário salva.
+   * Quando account for null, somente a sessão será removida.
+   */
+  useEffect(() => {
+    if (account) {
+      localStorage.setItem(
+        "agronexus-account",
+        JSON.stringify(account)
+      );
+    } else {
+      localStorage.removeItem("agronexus-account");
+    }
+  }, [account]);
+
+  /*
+   * Salva as contas demonstrativas criadas.
+   */
+  useEffect(() => {
+    localStorage.setItem(
+      "agronexus-accounts",
+      JSON.stringify(accounts)
+    );
+  }, [accounts]);
+
+  /*
+   * Salva os lotes cadastrados.
+   */
+  useEffect(() => {
+    localStorage.setItem(
+      "agronexus-lots",
+      JSON.stringify(lots)
+    );
+  }, [lots]);
+
+  /*
+   * Salva propostas, aceitações e recusas.
+   */
+  useEffect(() => {
+    localStorage.setItem(
+      "agronexus-negotiations",
+      JSON.stringify(negotiations)
+    );
+  }, [negotiations]);
+
+  /*
+   * Salva as demandas publicadas pelos compradores.
+   */
+  useEffect(() => {
+    localStorage.setItem(
+      "agronexus-demands",
+      JSON.stringify(demands)
+    );
+  }, [demands]);
+
+  /*
+   * Salva os planos cadastrados pelos empreendedores.
+   */
+  useEffect(() => {
+    localStorage.setItem(
+      "agronexus-production-plans",
+      JSON.stringify(productionPlans)
+    );
+  }, [productionPlans]);
 
   const isBuyer = account?.role === "buyer";
-  const isProducer = Boolean(account && account.role === "entrepreneur");
+
+  const isProducer = Boolean(
+    account && account.role === "entrepreneur"
+  );
 
   const go = (nextPage) => {
     if (nextPage !== page) {
-      setHistory((pages) => [...pages, page]);
+      setHistory((pages) => [
+        ...pages,
+        page,
+      ]);
     }
 
     setPage(nextPage);
@@ -46,9 +161,28 @@ export default function App() {
       return;
     }
 
-    setPage(history[history.length - 1]);
-    setHistory((pages) => pages.slice(0, -1));
+    const previousPage = history[history.length - 1];
+
+    setPage(previousPage);
+
+    setHistory((pages) =>
+      pages.slice(0, -1)
+    );
+
     setMenu(false);
+
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth",
+    });
+  };
+
+  const showToast = (message) => {
+    setToast(message);
+
+    setTimeout(() => {
+      setToast("");
+    }, 4000);
   };
 
   const logout = () => {
@@ -57,6 +191,17 @@ export default function App() {
     setCreateAccount(false);
     setPage("acesso");
     setMenu(false);
+
+    /*
+     * O logout encerra somente a sessão.
+     * Contas e cadastros continuam no localStorage.
+     */
+    localStorage.removeItem("agronexus-account");
+
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth",
+    });
   };
 
   const openCreateAccount = () => {
@@ -64,10 +209,15 @@ export default function App() {
     go("acesso");
   };
 
-  const marketplaceLots = [...lots, ...demoLots];
+  const marketplaceLots = [
+    ...lots,
+    ...demoLots,
+  ];
 
   const myLots = account
-    ? lots.filter((lot) => lot.ownerEmail === account.email)
+    ? lots.filter(
+        (lot) => lot.ownerEmail === account.email
+      )
     : [];
 
   const authenticate = (profile, isCreating) => {
@@ -79,12 +229,18 @@ export default function App() {
       if (emailAlreadyExists) {
         return {
           success: false,
-          message: "Este e-mail já possui uma conta demonstrativa.",
+          message:
+            "Este e-mail já possui uma conta demonstrativa.",
         };
       }
 
-      setAccounts((currentAccounts) => [...currentAccounts, profile]);
+      setAccounts((currentAccounts) => [
+        ...currentAccounts,
+        profile,
+      ]);
+
       setAccount(profile);
+      setCreateAccount(false);
       go("painel");
 
       return {
@@ -101,11 +257,13 @@ export default function App() {
     if (!savedAccount) {
       return {
         success: false,
-        message: "Conta não encontrada. Crie um perfil para continuar.",
+        message:
+          "Conta não encontrada. Crie um perfil para continuar.",
       };
     }
 
     setAccount(savedAccount);
+    setCreateAccount(false);
     go("painel");
 
     return {
@@ -125,11 +283,7 @@ export default function App() {
       ...currentNegotiations,
     ]);
 
-    setToast("Proposta enviada com segurança.");
-
-    setTimeout(() => {
-      setToast("");
-    }, 3000);
+    showToast("Proposta enviada com segurança.");
   };
 
   const updateNegotiation = (id, status) => {
@@ -144,21 +298,21 @@ export default function App() {
       )
     );
 
-    setToast(`Proposta ${status.toLowerCase()}.`);
-
-    setTimeout(() => {
-      setToast("");
-    }, 3000);
+    showToast(
+      `Proposta ${status.toLowerCase()}.`
+    );
   };
 
   const registerLot = (lot) => {
-    if (!account) {
+    if (!account || account.role !== "entrepreneur") {
       return;
     }
 
     const newLot = {
       ...lot,
-      producer: account.business || account.name,
+      id: `lote-${Date.now()}`,
+      producer:
+        account.business || account.name,
       ownerEmail: account.email,
       contact: account.phone,
     };
@@ -168,20 +322,100 @@ export default function App() {
       ...currentLots,
     ]);
 
-    setToast("Lote cadastrado com sucesso.");
+    showToast("Lote cadastrado com sucesso.");
     go("painel");
-
-    setTimeout(() => {
-      setToast("");
-    }, 3000);
   };
 
   const receiveContact = () => {
-    setToast("Mensagem recebida.");
+    showToast("Mensagem recebida.");
+  };
 
-    setTimeout(() => {
-      setToast("");
-    }, 3000);
+  const registerDemand = (demand) => {
+    if (!account || account.role !== "buyer") {
+      return;
+    }
+
+    const newDemand = {
+      ...demand,
+      id: `demanda-${Date.now()}`,
+      buyerEmail: account.email,
+      company:
+        account.business || account.name,
+      status: "Aberta",
+    };
+
+    /*
+     * Compara somente a nova demanda com os planos
+     * que já estão disponíveis.
+     */
+    const matches = buildMatches(
+      productionPlans,
+      [newDemand]
+    );
+
+    const priorities = matches.filter(
+      (match) => match.isPriority()
+    ).length;
+
+    setDemands((currentDemands) => [
+      newDemand,
+      ...currentDemands,
+    ]);
+
+    if (matches.length > 0) {
+      showToast(
+        `Demanda publicada. Encontramos ${matches.length} conexão(ões), sendo ${priorities} prioritária(s).`
+      );
+    } else {
+      showToast(
+        "Demanda publicada. Ainda não encontramos produção compatível."
+      );
+    }
+  };
+
+  const registerProductionPlan = (plan) => {
+    if (
+      !account ||
+      account.role !== "entrepreneur"
+    ) {
+      return;
+    }
+
+    const newPlan = {
+      ...plan,
+      id: `plano-${Date.now()}`,
+      producerEmail: account.email,
+      producer:
+        account.business || account.name,
+    };
+
+    /*
+     * Compara somente o novo plano com as demandas
+     * que já estão abertas.
+     */
+    const matches = buildMatches(
+      [newPlan],
+      demands
+    );
+
+    const priorities = matches.filter(
+      (match) => match.isPriority()
+    ).length;
+
+    setProductionPlans((currentPlans) => [
+      newPlan,
+      ...currentPlans,
+    ]);
+
+    if (matches.length > 0) {
+      showToast(
+        `Plano analisado. Encontramos ${matches.length} conexão(ões), sendo ${priorities} prioritária(s).`
+      );
+    } else {
+      showToast(
+        "Plano analisado. Ainda não encontramos demanda compatível."
+      );
+    }
   };
 
   return (
@@ -196,7 +430,9 @@ export default function App() {
         onBack={goBack}
         onLogout={logout}
         onCreateAccount={openCreateAccount}
-        onToggleMenu={() => setMenu((open) => !open)}
+        onToggleMenu={() =>
+          setMenu((open) => !open)
+        }
       />
 
       <main>
@@ -250,6 +486,17 @@ export default function App() {
 
         {page === "produto" && isProducer && (
           <Product done={registerLot} />
+        )}
+
+        {page === "radar" && account && (
+          <Intelligence
+            account={account}
+            demands={demands}
+            productionPlans={productionPlans}
+            onRegisterDemand={registerDemand}
+            onRegisterPlan={registerProductionPlan}
+            go={go}
+          />
         )}
       </main>
 

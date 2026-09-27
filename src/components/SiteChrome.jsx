@@ -13,31 +13,44 @@ export function SiteHeader({
   onCreateAccount,
   onToggleMenu,
 }) {
-  const visibleItems = navigationItems.flatMap(([page, label]) => {
-    if (page !== "lotes") {
-      return [[page, label]];
-    }
+  const visibleItems = navigationItems.flatMap(
+    ([page, label]) => {
+      if (page === "radar" && !isLoggedIn) {
+        return [];
+      }
 
-    if (!isLoggedIn) {
-      return [];
-    }
+      if (page !== "lotes") {
+        return [[page, label]];
+      }
 
-    if (isProducer) {
-      return [["solicitacoes", "Solicitações"]];
-    }
+      if (!isLoggedIn) {
+        return [];
+      }
 
-    return [["lotes", "Lotes"]];
-  });
+      if (isProducer) {
+        return [
+          ["solicitacoes", "Solicitações"],
+        ];
+      }
+
+      return [["lotes", "Lotes"]];
+    }
+  );
 
   return (
     <header>
       <div className="nav">
-        <button onClick={() => onNavigate("inicio")}>
+        <button
+          type="button"
+          onClick={() => onNavigate("inicio")}
+          aria-label="Voltar para a página inicial"
+        >
           <Logo />
         </button>
 
         {canGoBack && (
           <button
+            type="button"
             className="back-button"
             onClick={onBack}
           >
@@ -46,6 +59,7 @@ export function SiteHeader({
         )}
 
         <button
+          type="button"
           className="menu"
           onClick={onToggleMenu}
         >
@@ -55,8 +69,13 @@ export function SiteHeader({
         <nav className={menuOpen ? "open" : ""}>
           {visibleItems.map(([page, label]) => (
             <button
+              type="button"
               key={page}
-              className={currentPage === page ? "active" : ""}
+              className={
+                currentPage === page
+                  ? "active"
+                  : ""
+              }
               onClick={() => onNavigate(page)}
             >
               {label}
@@ -64,16 +83,28 @@ export function SiteHeader({
           ))}
 
           <button
-            className={currentPage === "painel" ? "active" : ""}
+            type="button"
+            className={
+              currentPage === "painel"
+                ? "active"
+                : ""
+            }
             onClick={() =>
-              onNavigate(isLoggedIn ? "painel" : "acesso")
+              onNavigate(
+                isLoggedIn
+                  ? "painel"
+                  : "acesso"
+              )
             }
           >
-            {isLoggedIn ? "Minha área" : "Entrar"}
+            {isLoggedIn
+              ? "Minha área"
+              : "Entrar"}
           </button>
 
           {isLoggedIn && (
             <button
+              type="button"
               className="logout-button"
               onClick={onLogout}
             >
@@ -81,14 +112,16 @@ export function SiteHeader({
             </button>
           )}
 
-          {!isLoggedIn && currentPage !== "acesso" && (
-            <button
-              className="lime"
-              onClick={onCreateAccount}
-            >
-              Cadastrar lote ↗
-            </button>
-          )}
+          {!isLoggedIn &&
+            currentPage !== "acesso" && (
+              <button
+                type="button"
+                className="lime"
+                onClick={onCreateAccount}
+              >
+                Cadastrar lote ↗
+              </button>
+            )}
         </nav>
       </div>
     </header>
@@ -101,7 +134,8 @@ export function SiteFooter() {
       <Logo />
 
       <p>
-        Conexões que fortalecem quem produz e aproximam quem compra.
+        Conexões que fortalecem quem produz e
+        aproximam quem compra.
       </p>
     </footer>
   );
