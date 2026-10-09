@@ -1,7 +1,7 @@
 import { Eyebrow as K, StatCard as Stat } from "../components/Brand";
 
 // Troque somente este ID quando o Pitch da Fase 6 estiver publicado.
-const PITCH_VIDEO_ID = "iXwDXU64oTM";
+const PITCH_VIDEO_ID = "NUKg0IJoCSY";
 
 export default function Home({ go }) {
   const networkItems = [
@@ -322,7 +322,7 @@ export default function Home({ go }) {
 
           <a
             className="lime pitch-link"
-            href={`https://youtu.be/NUKg0IJoCSY`}
+            href={`https://www.youtube.com/watch?v=${PITCH_VIDEO_ID}`}
             target="_blank"
             rel="noreferrer"
           >
@@ -332,7 +332,7 @@ export default function Home({ go }) {
 
         <div className="pitch-video">
           <iframe
-            src={`https://youtu.be/NUKg0IJoCSY`}
+            src={`https://www.youtube.com/embed/${PITCH_VIDEO_ID}`}
             title="Pitch oficial do AgroNexus Premium"
             loading="lazy"
             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
