@@ -1,6 +1,4 @@
 import { Eyebrow as K, StatCard as Stat } from "../components/Brand";
-
-// Troque somente este ID quando o Pitch da Fase 6 estiver publicado.
 const PITCH_VIDEO_ID = "NUKg0IJoCSY";
 
 export default function Home({ go }) {
