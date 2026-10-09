@@ -322,7 +322,7 @@ export default function Home({ go }) {
 
           <a
             className="lime pitch-link"
-            href={`https://youtu.be/${PITCH_VIDEO_ID}`}
+            href={`https://youtu.be/NUKg0IJoCSY`}
             target="_blank"
             rel="noreferrer"
           >
@@ -332,7 +332,7 @@ export default function Home({ go }) {
 
         <div className="pitch-video">
           <iframe
-            src={`https://www.youtube.com/embed/${PITCH_VIDEO_ID}`}
+            src={`https://youtu.be/NUKg0IJoCSY`}
             title="Pitch oficial do AgroNexus Premium"
             loading="lazy"
             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
