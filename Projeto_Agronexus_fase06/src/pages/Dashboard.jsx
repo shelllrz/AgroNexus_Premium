@@ -1,0 +1,448 @@
+import { useState } from "react";
+
+import {
+  Eyebrow as K,
+  StatCard as Stat,
+} from "../components/Brand";
+
+import ProposalForm from "../components/ProposalForm";
+import NegotiationList from "../components/NegotiationList";
+
+import {
+  calculateProfileScore,
+} from "../utils/scoreUtils";
+
+export default function Dashboard({
+  account,
+  lots,
+  marketplaceLots,
+  negotiations,
+  onSendProposal,
+  onUpdateNegotiation,
+  go,
+}) {
+  const isBuyer =
+    account.role === "buyer";
+
+  const [
+    selectedLot,
+    setSelectedLot,
+  ] = useState(null);
+
+  const buyerNegotiations =
+    negotiations.filter(
+      (item) =>
+        item.buyerEmail ===
+        account.email
+    );
+
+  const producerNegotiations =
+    negotiations.filter(
+      (item) =>
+        item.producerEmail ===
+        account.email
+    );
+
+  const acceptedPurchases =
+    buyerNegotiations.filter(
+      (item) =>
+        item.status === "Aceita"
+    ).length;
+
+  const profileScore = isBuyer
+    ? Math.min(
+        98,
+        account.verificationScore +
+          acceptedPurchases * 2
+      )
+    : lots.length
+      ? Math.round(
+          calculateProfileScore(lots) *
+            0.75 +
+            account.verificationScore *
+              0.25
+        )
+      : 0;
+
+  const originMunicipalities = [
+    ...new Set(lots.map((lot) => lot.region).filter(Boolean)),
+  ];
+
+  if (isBuyer) {
+    return (
+      <section className="inner frame">
+        <K>
+          PAINEL DO COMPRADOR · OPORTUNIDADES
+        </K>
+
+        <div className="title-row">
+          <h1>
+            Bom ter você,
+            <br />
+
+            <em>
+              {account.business ||
+                account.name}
+              .
+            </em>
+          </h1>
+
+          <button
+            type="button"
+            className="outline"
+            onClick={() =>
+              go("lotes")
+            }
+          >
+            Explorar lotes
+          </button>
+        </div>
+
+        <section className="stats">
+          <Stat
+            l="Ofertas disponíveis"
+            n={String(
+              marketplaceLots.length
+            ).padStart(2, "0")}
+          />
+
+          <Stat
+            l="Score do comprador"
+            n={`${profileScore}/100`}
+            t="white"
+          />
+
+          <Stat
+            l="Negociações iniciadas"
+            n={String(
+              buyerNegotiations.length
+            ).padStart(2, "0")}
+            t="orange"
+          />
+        </section>
+
+        <div className="profile-check">
+          <b>
+            ✓{" "}
+            Perfil ativo
+          </b>
+
+          <span>
+            Dados do perfil usados para organizar demandas e oportunidades.
+          </span>
+        </div>
+
+        <div className="innovation-callout">
+          <div>
+            <K>
+              NEXUS RADAR ESG
+            </K>
+
+            <h2>Nexus Radar ESG</h2>
+
+            <p>
+              Publique a demanda da sua
+              empresa e encontre planos de
+              produção compatíveis com
+              volume, região e prazo.
+            </p>
+          </div>
+
+          <button
+            type="button"
+            className="lime"
+            onClick={() =>
+              go("radar")
+            }
+          >
+            Abrir radar de demanda ↗
+          </button>
+        </div>
+
+        <h2 className="sub">
+          Produtos para negociar
+        </h2>
+
+        <div className="connection-grid">
+          {marketplaceLots.map(
+            (lot, index) => (
+              <article
+                className="connection-card"
+                key={`${lot.name}-${index}`}
+              >
+                <small>
+                  {lot.region}
+                </small>
+
+                <h3>{lot.name}</h3>
+
+                <p>
+                  {lot.producer} ·{" "}
+                  {lot.volume}
+                </p>
+
+                <strong>
+                  Confiança do produtor:{" "}
+                  {lot.score}/100
+                </strong>
+
+                <button
+                  type="button"
+                  className="lime"
+                  onClick={() =>
+                    setSelectedLot(lot)
+                  }
+                >
+                  Enviar proposta ↗
+                </button>
+              </article>
+            )
+          )}
+        </div>
+
+        {selectedLot && (
+          <ProposalForm
+            lot={selectedLot}
+            buyer={account}
+            onCancel={() =>
+              setSelectedLot(null)
+            }
+            onSend={(proposal) => {
+              onSendProposal(proposal);
+              setSelectedLot(null);
+            }}
+          />
+        )}
+
+        <h2 className="sub">
+          Minhas negociações
+        </h2>
+
+        <NegotiationList
+          items={buyerNegotiations}
+          viewer="buyer"
+        />
+
+        <p className="notice">
+          Os contatos são protegidos e
+          liberados somente quando o
+          empreendedor aceita a proposta.
+        </p>
+      </section>
+    );
+  }
+
+  return (
+    <section className="inner frame">
+      <K>
+        PAINEL DO EMPREENDEDOR RURAL ·
+        VISÃO GERAL
+      </K>
+
+      <div className="title-row">
+        <h1>
+          Bom ter você,
+          <br />
+
+          <em>
+            {account.business ||
+              account.name}
+            .
+          </em>
+        </h1>
+
+        <button
+          type="button"
+          className="outline"
+          onClick={() =>
+            go("produto")
+          }
+        >
+          + Cadastrar lote
+        </button>
+      </div>
+
+      <section className="stats">
+        <Stat
+          l="Lotes ativos"
+          n={String(
+            lots.length
+          ).padStart(2, "0")}
+        />
+
+        <Stat
+          l="Score da produção"
+          n={`${profileScore}/100`}
+          t="white"
+        />
+
+        <Stat
+          l="Municípios de origem"
+          n={String(
+            originMunicipalities.length
+          ).padStart(2, "0")}
+          t="orange"
+        />
+      </section>
+
+      <div className="profile-check">
+        <b>
+          ✓{" "}
+          Perfil ativo
+        </b>
+
+        <span>
+          Perfil de produtor cadastrado. Município e UF ajudam a contextualizar os lotes.
+        </span>
+      </div>
+
+      <div className="innovation-callout">
+        <div>
+          <K>
+            NEXUS RADAR ESG
+          </K>
+
+          <h2>Nexus Radar ESG</h2>
+
+          <p>
+            Planeje sua próxima produção
+            com base em demandas
+            corporativas e visualize
+            oportunidades antes da
+            colheita.
+          </p>
+        </div>
+
+        <button
+          type="button"
+          className="lime"
+          onClick={() =>
+            go("radar")
+          }
+        >
+          Analisar próxima produção ↗
+        </button>
+      </div>
+
+      <div className="steps">
+        <K>PRÓXIMOS PASSOS</K>
+
+        <div>
+          <button
+            type="button"
+            onClick={() =>
+              go("produto")
+            }
+          >
+            01
+
+            <span>
+              Cadastrar produto
+
+              <small>
+                Informe sua colheita
+              </small>
+            </span>
+
+            →
+          </button>
+
+          <button
+            type="button"
+            onClick={() =>
+              go("solicitacoes")
+            }
+          >
+            02
+
+            <span>
+              Ver solicitações
+
+              <small>
+                Analise as propostas
+                recebidas
+              </small>
+            </span>
+
+            →
+          </button>
+        </div>
+      </div>
+
+      <h2 className="sub">
+        Minha produção e regiões
+      </h2>
+
+      {lots.length > 0 ? (
+        <div className="lot-table compact">
+          {lots.map((lot, index) => (
+            <article
+              key={`${lot.name}-${index}`}
+            >
+              <div>
+                <b>{lot.name}</b>
+                <small>
+                  {lot.region}
+                </small>
+              </div>
+
+              <span>{lot.volume}</span>
+
+              <strong>
+                {lot.score}/100
+              </strong>
+
+              <span>Município registrado · {lot.region}</span>
+            </article>
+          ))}
+        </div>
+      ) : (
+        <div className="empty">
+          <b>
+            Nenhum produto cadastrado
+            ainda.
+          </b>
+
+          <p>
+            Os lotes, o score e os municípios
+            começam em zero.
+          </p>
+
+          <button
+            type="button"
+            className="lime"
+            onClick={() =>
+              go("produto")
+            }
+          >
+            Cadastrar primeiro lote ↗
+          </button>
+        </div>
+      )}
+
+      <div className="title-row">
+        <h2 className="sub">
+          Propostas de compradores
+        </h2>
+
+        <button
+          type="button"
+          className="outline"
+          onClick={() =>
+            go("solicitacoes")
+          }
+        >
+          Ver todas as solicitações →
+        </button>
+      </div>
+
+      <NegotiationList
+        items={producerNegotiations}
+        viewer="entrepreneur"
+        onUpdate={
+          onUpdateNegotiation
+        }
+      />
+    </section>
+  );
+}
