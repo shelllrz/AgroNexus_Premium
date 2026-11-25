@@ -1,6 +1,6 @@
 import { Eyebrow as K, StatCard as Stat } from "../components/Brand";
 
-const PITCH_VIDEO_ID = "NUKg0IJoCSY";
+const PITCH_VIDEO_ID = "cApTv9602sM";
 
 export default function Home({ go }) {
   const features = [
@@ -122,10 +122,10 @@ export default function Home({ go }) {
           <K>PITCH OFICIAL · AGRONEXUS</K>
           <h2>CONHEÇA A NOVA<br /><em>EXPERIÊNCIA AGRONEXUS.</em></h2>
           <p>Veja como o AgroNexus conecta produtores e compradores por meio de perfis, lotes, propostas comerciais, indicadores de compatibilidade e informações regionais.</p>
-          <a className="lime pitch-link" href={`https://www.youtube.com/watch?v=${PITCH_VIDEO_ID}`} target="_blank" rel="noreferrer">ASSISTIR NO YOUTUBE ↗</a>
+          <a className="lime pitch-link" href={`https://youtu.be/${PITCH_VIDEO_ID}`} target="_blank" rel="noreferrer">ASSISTIR NO YOUTUBE ↗</a>
         </div>
         <div className="pitch-video">
-          <iframe src={`https://www.youtube.com/embed/${PITCH_VIDEO_ID}`} title="Pitch do AgroNexus" loading="lazy" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerPolicy="strict-origin-when-cross-origin" allowFullScreen />
+          <iframe src={`https://www.youtube.com/embed/${PITCH_VIDEO_ID}`} title="Pitch do AgroNexus" loading="lazy" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowFullScreen />
         </div>
       </section>
 
