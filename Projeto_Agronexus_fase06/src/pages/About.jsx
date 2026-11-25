@@ -84,21 +84,6 @@ export default function About({ go }) {
               <p>Cadastre produtos, volumes, municípios e períodos de colheita para que compradores encontrem oportunidades compatíveis.</p>
             </div>
           </article>
-          <article className="impact-story impact-numbers">
-            <K>REGIÃO DA OFERTA</K>
-            <div className="location-visual" aria-label="Estado mais município">
-              <div className="location-chip">
-                <small>ESTADO</small>
-                <strong>UF</strong>
-              </div>
-              <b className="location-plus" aria-hidden="true">+</b>
-              <div className="location-chip">
-                <small>CIDADE</small>
-                <strong>MUNICÍPIO</strong>
-              </div>
-            </div>
-            <p>Origem regional de cada oferta</p>
-          </article>
           <article className="impact-story impact-news">
             <div className="impact-photo" role="img" aria-label="Produtos agrícolas frescos organizados para comercialização" />
             <div>
