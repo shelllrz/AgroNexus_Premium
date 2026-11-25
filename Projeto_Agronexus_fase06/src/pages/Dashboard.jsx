@@ -366,6 +366,25 @@ export default function Dashboard({
 
             →
           </button>
+
+          <button
+            type="button"
+            onClick={() =>
+              go("radar")
+            }
+          >
+            03
+
+            <span>
+              Ver oportunidades
+
+              <small>
+                Confira as compatibilidades
+              </small>
+            </span>
+
+            →
+          </button>
         </div>
       </div>
 
