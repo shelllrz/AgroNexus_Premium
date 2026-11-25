@@ -85,13 +85,19 @@ export default function About({ go }) {
             </div>
           </article>
           <article className="impact-story impact-numbers">
-            <K>LOCALIZAÇÃO</K>
-            <div className="region-formula" aria-label="Estado e município">
-              <span>UF</span>
-              <b aria-hidden="true">+</b>
-              <span>MUNICÍPIO</span>
+            <K>REGIÃO DA OFERTA</K>
+            <div className="location-visual" aria-label="Estado mais município">
+              <div className="location-chip">
+                <small>ESTADO</small>
+                <strong>UF</strong>
+              </div>
+              <b className="location-plus" aria-hidden="true">+</b>
+              <div className="location-chip">
+                <small>CIDADE</small>
+                <strong>MUNICÍPIO</strong>
+              </div>
             </div>
-            <p>Origem regional de cada oferta.</p>
+            <p>Origem regional de cada oferta</p>
           </article>
           <article className="impact-story impact-news">
             <div className="impact-photo" role="img" aria-label="Produtos agrícolas frescos organizados para comercialização" />
